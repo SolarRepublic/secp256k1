@@ -6864,6 +6864,10 @@ void run_ecdsa_edge_cases(void) {
 # include "modules/recovery/tests_impl.h"
 #endif
 
+#ifdef ENABLE_MODULE_SCHNORR
+# include "modules/schnorr/tests_impl.h"
+#endif
+
 #ifdef ENABLE_MODULE_EXTRAKEYS
 # include "modules/extrakeys/tests_impl.h"
 #endif
@@ -7162,6 +7166,11 @@ int main(int argc, char **argv) {
 #ifdef ENABLE_MODULE_RECOVERY
     /* ECDSA pubkey recovery tests */
     run_recovery_tests();
+#endif
+
+#ifdef ENABLE_MODULE_SCHNORR
+    /* Schnorr signature tests */
+    run_schnorr_tests();
 #endif
 
 #ifdef ENABLE_MODULE_EXTRAKEYS
