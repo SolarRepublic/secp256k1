@@ -156,11 +156,6 @@ AC_ARG_ENABLE(module_schnorrsig,
     AS_HELP_STRING([--enable-module-schnorrsig],[enable schnorrsig module [default=no]]), [],
     [SECP_SET_DEFAULT([enable_module_schnorrsig], [no], [yes])])
 
-AC_ARG_ENABLE(module_schnorr,
-    AS_HELP_STRING([--enable-module-schnorr],[enable Schnorr signatures module (default is yes)]),
-    [enable_module_schnorr=$enableval],
-    [enable_module_schnorr=yes])
-
 AC_ARG_ENABLE(external_default_callbacks,
     AS_HELP_STRING([--enable-external-default-callbacks],[enable external default callback functions [default=no]]), [],
     [SECP_SET_DEFAULT([enable_external_default_callbacks], [no], [no])])
@@ -346,11 +341,10 @@ if test x"$enable_module_recovery" = x"yes"; then
   AC_DEFINE(ENABLE_MODULE_RECOVERY, 1, [Define this symbol to enable the ECDSA pubkey recovery module])
 fi
 
-if test x"$enable_module_schnorr" = x"yes"; then
-  AC_DEFINE(ENABLE_MODULE_SCHNORR, 1, [Define this symbol to enable the Schnorr signature module])
+if test x"$enable_module_schnorrsig" = x"yes"; then
+  AC_DEFINE(ENABLE_MODULE_SCHNORRSIG, 1, [Define this symbol to enable the schnorrsig module])
+  enable_module_extrakeys=yes
 fi
-
-AC_C_BIGENDIAN()
 
 # Test if extrakeys is set after the schnorrsig module to allow the schnorrsig
 # module to set enable_module_extrakeys=yes
@@ -394,7 +388,6 @@ AM_CONDITIONAL([USE_EXHAUSTIVE_TESTS], [test x"$enable_exhaustive_tests" != x"no
 AM_CONDITIONAL([USE_EXAMPLES], [test x"$enable_examples" != x"no"])
 AM_CONDITIONAL([USE_BENCHMARK], [test x"$enable_benchmark" = x"yes"])
 AM_CONDITIONAL([ENABLE_MODULE_ECDH], [test x"$enable_module_ecdh" = x"yes"])
-AM_CONDITIONAL([ENABLE_MODULE_SCHNORR], [test x"$enable_module_schnorr" = x"yes"])
 AM_CONDITIONAL([ENABLE_MODULE_RECOVERY], [test x"$enable_module_recovery" = x"yes"])
 AM_CONDITIONAL([ENABLE_MODULE_EXTRAKEYS], [test x"$enable_module_extrakeys" = x"yes"])
 AM_CONDITIONAL([ENABLE_MODULE_SCHNORRSIG], [test x"$enable_module_schnorrsig" = x"yes"])
@@ -416,7 +409,6 @@ echo "  with coverage           = $enable_coverage"
 echo "  with examples           = $enable_examples"
 echo "  module ecdh             = $enable_module_ecdh"
 echo "  module recovery         = $enable_module_recovery"
-echo "  module schnorr          = $enable_module_schnorr"
 echo "  module extrakeys        = $enable_module_extrakeys"
 echo "  module schnorrsig       = $enable_module_schnorrsig"
 echo
